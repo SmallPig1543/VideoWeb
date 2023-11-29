@@ -23,8 +23,8 @@ const (
 	EsUrl = "http://192.168.242.139:9200"
 )
 const (
-	OSS_END_POINT         = "oss-cn-hongkong.aliyuncs.com"
-	OSS_ACCESS_KEY_ID     = "LTAI5tB7Jjsxa6GdseViWqRE"
-	OSS_ACCESS_KEY_SECRET = "ABrFBE62QML2oiBeJe0j7QBQm0ADrJ"
-	OSS_BUCKET            = "videoweb-test"
+	OSS_END_POINT         = "xxx"
+	OSS_ACCESS_KEY_ID     = "xxx"
+	OSS_ACCESS_KEY_SECRET = "xxx"
+	OSS_BUCKET            = "xxx"
 )
