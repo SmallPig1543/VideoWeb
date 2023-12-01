@@ -1,0 +1,77 @@
+version: "3.7"
+
+networks:
+  videoWebSite:
+    external: true
+    name: VideoWeb
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=videoweb
+    ports:
+      - "3306:3306"
+    networks:
+      videoWebSite:
+
+
+  redis:
+    container_name: redis
+    image: redis:7.1.2
+    restart: always
+    volumes:
+      - /usr/local/redis:/usr/local/redis
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass 123456
+    networks:
+      videoWebSite:
+
+
+  elasticsearch:
+    image: elasticsearch:7.12.1
+    container_name: es
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ELASTIC_PASSWORD=123456
+      - xpack.security.enabled=true
+    volumes:
+      - /usr/local/elasticsearch/data:/usr/local/elasticsearch/data
+    ports:
+      - "9200:9200"
+    restart: always
+    networks:
+      videoWebSite:
+
+
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+    ports:
+      - "5672:5672"
+    restart: always
+    networks:
+      videoWebSite:
+
+
+  web:
+    build: .
+    container_name: web
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "8080:9090"
+    restart: always
+    networks:
+      videoWebSite:
+
